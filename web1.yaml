@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web1
+  namespace: app-cluster
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:1.24.0-alpine-slim
+          ports:
+            - name: httpport
+              containerPort: 80
+          volumeMounts:
+            - name: web-data
+              mountPath: /var/web_home
+      volumes:
+        - name: web-data
